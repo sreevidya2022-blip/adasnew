@@ -328,7 +328,7 @@ def detection_summary():
         return jsonify({'error': str(e)}), 500
 
 with app.app_context():
-    db.create_all(checkfirst=True)
+    db.create_all()
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
