@@ -408,8 +408,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
           <div id="ann-overlay">
             <div class="up-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>
             <div class="bold" style="font-size:14px">Drop image here</div>
-            <div class="sm muted">or click to upload truck sensor data</div>
-            <label class="btn btn-p" style="cursor:pointer">Browse Files<input type="file" accept="image/*" style="display:none" onchange="loadImg(event)"></label>
+            <div class="sm muted">or click the button to upload truck sensor data</div>
+            <button class="btn btn-p" style="cursor:pointer" onclick="document.getElementById('real-file-input').click()">Browse Files</button>
+            <input id="real-file-input" type="file" accept="image/*" style="display:none" onchange="loadImg(event)">
           </div>
         </div>
       </div>
@@ -845,8 +846,23 @@ function selCls(el, cls, col) {
   curCls = cls; curCol = col;
 }
 
+// Drag and drop support
+const annWrap = document.getElementById('ann-wrap');
+annWrap.addEventListener('dragover', e => { e.preventDefault(); annWrap.style.borderColor = 'var(--accent)'; });
+annWrap.addEventListener('dragleave', () => { annWrap.style.borderColor = ''; });
+annWrap.addEventListener('drop', e => {
+  e.preventDefault();
+  annWrap.style.borderColor = '';
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) loadImgFile(f);
+});
+
 function loadImg(e) {
   const f = e.target.files[0]; if (!f) return;
+  loadImgFile(f);
+}
+
+function loadImgFile(f) {
   const r = new FileReader();
   r.onload = ev => {
     const img = new Image();
