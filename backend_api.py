@@ -36,7 +36,7 @@ def analyze_with_groq(query):
             "https://api.groq.com/openai/v1/chat/completions",
             headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
             json={
-                "model": "llama3-8b-8192",,
+                "model": "llama3-8b-8192",
                 "messages": [{"role": "user", "content": f"You are an ADAS expert for Mercedes-Benz trucks. Analyze: {query}"}],
                 "max_tokens": 500
             },
