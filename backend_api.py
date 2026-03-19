@@ -42,7 +42,8 @@ def analyze_with_groq(query):
             },
             timeout=30
         )
-        return {"analysis": resp.json()["choices"][0]["message"]["content"]}
+        data = resp.json()
+        return {"analysis": data.get("choices", [{}])[0].get("message", {}).get("content", str(data))}
     except Exception as e:
         logger.error(f"Groq error: {e}")
         return {"error": str(e)}
